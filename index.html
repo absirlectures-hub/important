@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A Question For You 💖</title>
+
+  <style>
+    :root{
+      --pink1:#ffe0ea;
+      --pink2:#ff9fc2;
+      --card:#fff5f9;
+      --red:#e0002b;
+      --deep:#8a0030;
+      --shadow: 0 22px 80px rgba(0,0,0,.22);
+      --glow: 0 0 40px rgba(255, 90, 147, .28);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:
+        radial-gradient(900px 520px at 15% 12%, rgba(255,255,255,.70) 0%, transparent 55%),
+        radial-gradient(900px 520px at 85% 18%, rgba(255,255,255,.40) 0%, transparent 58%),
+        radial-gradient(1200px 700px at 50% 110%, rgba(255, 90, 147, .18) 0%, transparent 55%),
+        linear-gradient(135deg, var(--pink1), var(--pink2));
+      overflow:hidden;
+    }
+
+    #confetti{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index: 50;
+    }
+
+    .hearts{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:1;
+    }
+    .heart{
+      position:absolute;
+      bottom:-60px;
+      width:22px;
+      height:22px;
+      background: var(--red);
+      transform: rotate(45deg);
+      opacity:.16;
+      animation: floatUp linear infinite;
+    }
+    .heart::before,
+    .heart::after{
+      content:"";
+      position:absolute;
+      width:22px;
+      height:22px;
+      background: var(--red);
+      border-radius:50%;
+    }
+    .heart::before{ left:-11px; top:0; }
+    .heart::after { top:-11px; left:0; }
+    @keyframes floatUp{
+      to{ transform: translateY(-125vh) rotate(45deg); }
+    }
+
+    .card{
+      width:min(640px, 92vw);
+      background: rgba(255,245,249,.95);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding: 26px 22px;
+      text-align:center;
+      position:relative;
+      z-index:3;
+    }
+
+    h1{
+      margin:6px 0 10px;
+      font-size: 30px;
+      color: var(--deep);
+    }
+    .sub{
+      margin-bottom:18px;
+      color:#7a0020;
+      font-size:16px;
+    }
+    .question{
+      font-size:22px;
+      font-weight:900;
+      color:#b00022;
+      margin:10px 0 18px;
+    }
+
+    .btnRow{
+      position:relative;
+      width: min(420px, 88vw);
+      height: 90px;
+      margin: 0 auto;
+    }
+
+    button{
+      border:0;
+      padding:13px 26px;
+      border-radius:999px;
+      font-size:16px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    #yesBtn{
+      position:absolute;
+      left:14px;
+      top:50%;
+      transform:translateY(-50%);
+      background: linear-gradient(135deg, #ff2f63, #ff7aa6);
+      color:#fff;
+    }
+
+    #noBtn{
+      position:absolute;
+      left:280px;
+      top:50%;
+      transform:translateY(-50%);
+      background:#fff;
+      border:2px solid #e0002b;
+      color:#b00022;
+    }
+
+    .result{
+      display:none;
+      margin-top:18px;
+      padding:16px;
+      border-radius:18px;
+      background:#fff;
+      border:2px dashed #ff7aa6;
+      font-weight:800;
+      color:#8a0030;
+      white-space:pre-wrap;
+    }
+
+    .cursor{
+      animation: blink 1s infinite;
+    }
+    @keyframes blink{50%{opacity:0}}
+
+    .tiny{
+      margin-top:12px;
+      font-size:12px;
+      color:#7a0020;
+    }
+  </style>
+</head>
+
+<body>
+<canvas id="confetti"></canvas>
+<div class="hearts" id="hearts"></div>
+
+<main class="card">
+  <h1>Something I Want to Ask You 💖</h1>
+  <div class="sub">I made this page just for you… because you mean something special to me.</div>
+
+  <div class="question">Snehal, will you be my Valentine? ❤️</div>
+
+  <div class="btnRow" id="arena">
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
+
+  <div class="result" id="resultBox">
+    <span id="typingText"></span><span class="cursor">|</span>
+  </div>
+
+  <div class="tiny" id="hint">Try clicking “No” 😄</div>
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+  const rand=(a,b)=>Math.random()*(b-a)+a;
+
+  const hearts=document.getElementById("hearts");
+  for(let i=0;i<30;i++){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.style.left=rand(0,100)+"vw";
+    h.style.animationDuration=rand(6,14)+"s";
+    hearts.appendChild(h);
+  }
+
+  const yes=document.getElementById("yesBtn");
+  const no=document.getElementById("noBtn");
+  const arena=document.getElementById("arena");
+  const box=document.getElementById("resultBox");
+  const text=document.getElementById("typingText");
+
+  no.addEventListener("pointerenter",()=>moveNo());
+  no.addEventListener("touchstart",(e)=>{e.preventDefault();moveNo();});
+
+  function moveNo(){
+    const r=arena.getBoundingClientRect();
+    no.style.left=rand(150,r.width-80)+"px";
+  }
+
+  yes.addEventListener("click",()=>{
+    box.style.display="block";
+    const msg=`Thank you for saying YES ❤️
+
+Snehal, you make my days brighter,
+my thoughts warmer,
+and my heart happier.
+
+I’m really glad I asked you. 🌹`;
+    let i=0;
+    const t=setInterval(()=>{
+      text.textContent+=msg[i++];
+      if(i>=msg.length)clearInterval(t);
+    },30);
+    no.style.display="none";
+  });
+});
+</script>
+</body>
+</html>
