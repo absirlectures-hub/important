@@ -1,231 +1,261 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>A Question For You 💖</title>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Snehal 💖 Be My Valentine?</title>
   <style>
     :root{
-      --pink1:#ffe0ea;
-      --pink2:#ff9fc2;
-      --card:#fff5f9;
-      --red:#e0002b;
-      --deep:#8a0030;
-      --shadow: 0 22px 80px rgba(0,0,0,.22);
-      --glow: 0 0 40px rgba(255, 90, 147, .28);
+      --red:#ff2d55;
+      --pink:#ff7aa2;
+      --pink2:#ffd1dc;
+      --white:#fff;
+      --shadow: 0 20px 60px rgba(0,0,0,.18);
     }
 
-    *{ box-sizing:border-box; }
-
+    *{box-sizing:border-box;}
     body{
       margin:0;
       min-height:100vh;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       display:flex;
       align-items:center;
       justify-content:center;
-      background:
-        radial-gradient(900px 520px at 15% 12%, rgba(255,255,255,.70) 0%, transparent 55%),
-        radial-gradient(900px 520px at 85% 18%, rgba(255,255,255,.40) 0%, transparent 58%),
-        radial-gradient(1200px 700px at 50% 110%, rgba(255, 90, 147, .18) 0%, transparent 55%),
-        linear-gradient(135deg, var(--pink1), var(--pink2));
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at 20% 20%, var(--pink2), #fff 40%),
+                  radial-gradient(circle at 80% 20%, #ffe6ee, #fff 45%),
+                  linear-gradient(135deg, #fff, #fff);
       overflow:hidden;
     }
 
-    #confetti{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index: 50;
-    }
-
+    /* Floating hearts background */
     .hearts{
       position:fixed;
       inset:0;
       pointer-events:none;
+      z-index:0;
       overflow:hidden;
-      z-index:1;
     }
     .heart{
       position:absolute;
-      bottom:-60px;
-      width:22px;
-      height:22px;
-      background: var(--red);
-      transform: rotate(45deg);
-      opacity:.16;
+      font-size:18px;
+      opacity:.25;
       animation: floatUp linear infinite;
+      filter: drop-shadow(0 6px 10px rgba(255,45,85,.15));
     }
-    .heart::before,
-    .heart::after{
-      content:"";
-      position:absolute;
-      width:22px;
-      height:22px;
-      background: var(--red);
-      border-radius:50%;
-    }
-    .heart::before{ left:-11px; top:0; }
-    .heart::after { top:-11px; left:0; }
     @keyframes floatUp{
-      to{ transform: translateY(-125vh) rotate(45deg); }
+      from{ transform: translateY(110vh) scale(.9) rotate(0deg); }
+      to{ transform: translateY(-15vh) scale(1.25) rotate(20deg); }
     }
 
     .card{
-      width:min(640px, 92vw);
-      background: rgba(255,245,249,.95);
-      border-radius: 26px;
-      box-shadow: var(--shadow);
-      padding: 26px 22px;
-      text-align:center;
       position:relative;
-      z-index:3;
+      z-index:1;
+      width:min(520px, 92vw);
+      background: rgba(255,255,255,.9);
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(255,45,85,.15);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 28px 22px;
+      text-align:center;
     }
 
     h1{
-      margin:6px 0 10px;
-      font-size: 30px;
-      color: var(--deep);
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 38px);
+      color: var(--red);
+      letter-spacing:.2px;
     }
+
     .sub{
-      margin-bottom:18px;
-      color:#7a0020;
-      font-size:16px;
-    }
-    .question{
-      font-size:22px;
-      font-weight:900;
-      color:#b00022;
-      margin:10px 0 18px;
+      margin: 0 0 18px;
+      color:#7a2b40;
+      font-size: 16px;
+      line-height:1.45;
     }
 
-    .btnRow{
+    .stage{
       position:relative;
-      width: min(420px, 88vw);
-      height: 90px;
-      margin: 0 auto;
+      height: 190px;
+      margin-top: 14px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,122,162,.18), rgba(255,45,85,.06));
+      border: 1px dashed rgba(255,45,85,.25);
+      overflow:hidden;
     }
 
-    button{
-      border:0;
-      padding:13px 26px;
-      border-radius:999px;
-      font-size:16px;
-      font-weight:900;
+    .btn{
+      border:none;
+      padding: 14px 26px;
+      border-radius: 999px;
       cursor:pointer;
+      font-weight: 700;
+      font-size: 16px;
+      transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+      box-shadow: 0 14px 30px rgba(255,45,85,.22);
+      user-select:none;
+      position:absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display:flex;
+      align-items:center;
+      gap:8px;
+      white-space:nowrap;
     }
 
     #yesBtn{
-      position:absolute;
-      left:14px;
-      top:50%;
-      transform:translateY(-50%);
-      background: linear-gradient(135deg, #ff2f63, #ff7aa6);
-      color:#fff;
+      left: 32%;
+      background: linear-gradient(135deg, var(--red), #ff4f79);
+      color: var(--white);
     }
+    #yesBtn:hover{ transform: translate(-50%, -50%) scale(1.05); }
 
     #noBtn{
-      position:absolute;
-      left:280px;
-      top:50%;
-      transform:translateY(-50%);
-      background:#fff;
-      border:2px solid #e0002b;
-      color:#b00022;
+      left: 68%;
+      background: linear-gradient(135deg, #ffd1dc, #fff);
+      color: #b1143a;
+      border: 2px solid rgba(255,45,85,.25);
+      box-shadow: 0 14px 30px rgba(177,20,58,.12);
     }
 
-    .result{
-      display:none;
-      margin-top:18px;
-      padding:16px;
-      border-radius:18px;
-      background:#fff;
-      border:2px dashed #ff7aa6;
-      font-weight:800;
-      color:#8a0030;
-      white-space:pre-wrap;
+    .msg{
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,45,85,.08);
+      border: 1px solid rgba(255,45,85,.18);
+      color:#8d1536;
+      font-weight: 700;
+      min-height: 52px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0;
+      transform: translateY(8px);
+      transition: opacity .25s ease, transform .25s ease;
     }
-
-    .cursor{
-      animation: blink 1s infinite;
+    .msg.show{
+      opacity:1;
+      transform: translateY(0);
     }
-    @keyframes blink{50%{opacity:0}}
 
     .tiny{
-      margin-top:12px;
-      font-size:12px;
-      color:#7a0020;
+      margin-top: 12px;
+      font-size: 12px;
+      color: rgba(122,43,64,.75);
     }
   </style>
 </head>
-
 <body>
-<canvas id="confetti"></canvas>
-<div class="hearts" id="hearts"></div>
 
-<main class="card">
-  <h1>Something I Want to Ask You 💖</h1>
-  <div class="sub">I made this page just for you… because you mean something special to me.</div>
+  <div class="hearts" id="hearts"></div>
 
-  <div class="question">Snehal, will you be my Valentine? ❤️</div>
+  <div class="card">
+    <h1>Snehal ❤️</h1>
+    <p class="sub">
+      Will you be my Valentine? 💘<br/>
+      (Choose wisely 😄)
+    </p>
 
-  <div class="btnRow" id="arena">
-    <button id="yesBtn">Yes</button>
-    <button id="noBtn">No</button>
+    <div class="stage" id="stage">
+      <button class="btn" id="yesBtn">💖 Yes</button>
+      <button class="btn" id="noBtn">💔 No</button>
+    </div>
+
+    <div class="msg" id="msg"> </div>
+    <div class="tiny">Made with love & lots of hearts 💗</div>
   </div>
 
-  <div class="result" id="resultBox">
-    <span id="typingText"></span><span class="cursor">|</span>
-  </div>
+  <script>
+    // Make floating hearts
+    const heartsWrap = document.getElementById("hearts");
+    const heartChars = ["💗","💖","💘","❤️","💕","💓","💞"];
+    const heartCount = 28;
 
-  <div class="tiny" id="hint">Try clicking “No” 😄</div>
-</main>
+    for(let i=0;i<heartCount;i++){
+      const s = document.createElement("div");
+      s.className = "heart";
+      s.textContent = heartChars[Math.floor(Math.random()*heartChars.length)];
+      s.style.left = Math.random()*100 + "vw";
+      s.style.animationDuration = (6 + Math.random()*8) + "s";
+      s.style.animationDelay = (-Math.random()*10) + "s";
+      s.style.fontSize = (14 + Math.random()*18) + "px";
+      s.style.opacity = (0.12 + Math.random()*0.35).toFixed(2);
+      heartsWrap.appendChild(s);
+    }
 
-<script>
-document.addEventListener("DOMContentLoaded",()=>{
-  const rand=(a,b)=>Math.random()*(b-a)+a;
+    const stage = document.getElementById("stage");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const msg = document.getElementById("msg");
 
-  const hearts=document.getElementById("hearts");
-  for(let i=0;i<30;i++){
-    const h=document.createElement("div");
-    h.className="heart";
-    h.style.left=rand(0,100)+"vw";
-    h.style.animationDuration=rand(6,14)+"s";
-    hearts.appendChild(h);
-  }
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
 
-  const yes=document.getElementById("yesBtn");
-  const no=document.getElementById("noBtn");
-  const arena=document.getElementById("arena");
-  const box=document.getElementById("resultBox");
-  const text=document.getElementById("typingText");
+    // Place "No" somewhere random inside the stage (keeping margins)
+    function moveNoButton(){
+      const stageRect = stage.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
 
-  no.addEventListener("pointerenter",()=>moveNo());
-  no.addEventListener("touchstart",(e)=>{e.preventDefault();moveNo();});
+      const padding = 14;
+      const minX = padding + (btnRect.width / 2);
+      const maxX = stageRect.width - padding - (btnRect.width / 2);
+      const minY = padding + (btnRect.height / 2);
+      const maxY = stageRect.height - padding - (btnRect.height / 2);
 
-  function moveNo(){
-    const r=arena.getBoundingClientRect();
-    no.style.left=rand(150,r.width-80)+"px";
-  }
+      const x = Math.random() * (maxX - minX) + minX;
+      const y = Math.random() * (maxY - minY) + minY;
 
-  yes.addEventListener("click",()=>{
-    box.style.display="block";
-    const msg=`Thank you for saying YES ❤️
+      noBtn.style.left = x + "px";
+      noBtn.style.top  = y + "px";
+      noBtn.style.transform = "translate(-50%, -50%)";
+    }
 
-Snehal, you make my days brighter,
-my thoughts warmer,
-and my heart happier.
+    // Initial position
+    window.addEventListener("load", () => {
+      // Convert to pixel positioning for smooth dodging
+      const stageRect = stage.getBoundingClientRect();
+      noBtn.style.left = (stageRect.width * 0.68) + "px";
+      noBtn.style.top  = (stageRect.height * 0.50) + "px";
+      noBtn.style.transform = "translate(-50%, -50%)";
+    });
 
-I’m really glad I asked you. 🌹`;
-    let i=0;
-    const t=setInterval(()=>{
-      text.textContent+=msg[i++];
-      if(i>=msg.length)clearInterval(t);
-    },30);
-    no.style.display="none";
-  });
-});
-</script>
+    // Impossible-to-click "No": move away when cursor comes near
+    stage.addEventListener("mousemove", (e) => {
+      const stageRect = stage.getBoundingClientRect();
+      const mouseX = e.clientX - stageRect.left;
+      const mouseY = e.clientY - stageRect.top;
+
+      const btnLeft = parseFloat(noBtn.style.left || "0");
+      const btnTop  = parseFloat(noBtn.style.top || "0");
+
+      const dx = mouseX - btnLeft;
+      const dy = mouseY - btnTop;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+
+      // If mouse within this radius, dodge immediately
+      const dangerRadius = 90;
+
+      if(dist < dangerRadius){
+        moveNoButton();
+      }
+    });
+
+    // Extra safety: if someone still manages to hover/focus, dodge
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("focus", moveNoButton);
+    noBtn.addEventListener("click", (e) => { e.preventDefault(); moveNoButton(); });
+
+    // Yes click shows message
+    yesBtn.addEventListener("click", () => {
+      msg.textContent = "thank you sona.. i love you... ";
+      msg.classList.add("show");
+
+      // Optional: make buttons chill after YES
+      noBtn.style.opacity = 0.35;
+      noBtn.style.cursor = "not-allowed";
+      noBtn.setAttribute("disabled", "disabled");
+      yesBtn.style.transform = "translate(-50%, -50%) scale(1.06)";
+    });
+  </script>
 </body>
 </html>
